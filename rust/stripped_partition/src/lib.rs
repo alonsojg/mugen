@@ -5,6 +5,12 @@
 //! ids back to back, and `offsets` holds the start of each cluster. Clusters
 //! are ordered by their first row id and each cluster is ascending.
 
+mod column_set;
+mod discovery;
+mod lattice;
 mod partition;
 
+pub use column_set::ColumnSet;
+pub use discovery::{discover_fds, discover_uccs, Fd};
+pub use lattice::next_level;
 pub use partition::{RowId, StrippedPartition, ValueId, SINGLETON};

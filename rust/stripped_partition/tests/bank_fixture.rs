@@ -4,7 +4,7 @@
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
-use stripped_partition::{StrippedPartition, ValueId};
+use stripped_partition::{discover_fds, discover_uccs, ColumnSet, StrippedPartition, ValueId};
 
 struct Table {
     columns: Vec<String>,
@@ -92,6 +92,66 @@ fn load_dataset(fixture: &serde_json::Value) -> Table {
         fixture["dataset"]["file"].as_str().unwrap(),
         sep,
     )
+}
+
+fn names(table: &Table, set: &ColumnSet) -> Vec<String> {
+    let mut v: Vec<String> = set.columns().map(|c| table.columns[c].clone()).collect();
+    v.sort();
+    v
+}
+
+#[test]
+fn discovered_fds_match_fixture_exactly() {
+    let fixture = load_fixture();
+    let table = load_dataset(&fixture);
+
+    let mut expected: Vec<(Vec<String>, String)> = fixture["rules"]["fd"]["items"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|fd| {
+            let mut lhs = strings(&fd["lhs"]);
+            lhs.sort();
+            (lhs, fd["rhs"].as_str().unwrap().to_owned())
+        })
+        .collect();
+    expected.sort();
+
+    let mut actual: Vec<(Vec<String>, String)> = discover_fds(&table.partitions)
+        .iter()
+        .map(|fd| (names(&table, &fd.lhs), table.columns[fd.rhs].clone()))
+        .collect();
+    actual.sort();
+
+    assert_eq!(actual.len(), expected.len());
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn discovered_uccs_match_fixture_exactly() {
+    let fixture = load_fixture();
+    let table = load_dataset(&fixture);
+
+    let mut expected: Vec<Vec<String>> = fixture["rules"]["ucc"]["items"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|ucc| {
+            let mut cols = strings(&ucc["columns"]);
+            cols.sort();
+            cols
+        })
+        .collect();
+    expected.sort();
+
+    let mut actual: Vec<Vec<String>> = discover_uccs(&table.partitions)
+        .iter()
+        .map(|u| names(&table, u))
+        .collect();
+    actual.sort();
+
+    assert_eq!(actual.len(), expected.len());
+    assert_eq!(actual, expected);
 }
 
 #[test]

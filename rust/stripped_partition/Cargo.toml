@@ -5,6 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
+fixedbitset = "0.5"
 
 [dev-dependencies]
 csv = "1"
