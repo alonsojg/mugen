@@ -4,7 +4,9 @@
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 
-use stripped_partition::{discover_fds, discover_uccs, ColumnSet, StrippedPartition, ValueId};
+use stripped_partition::{
+    discover_fds, discover_fds_tane, discover_uccs, ColumnSet, StrippedPartition, ValueId,
+};
 
 struct Table {
     columns: Vec<String>,
@@ -124,6 +126,32 @@ fn discovered_fds_match_fixture_exactly() {
     actual.sort();
 
     assert_eq!(actual.len(), expected.len());
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn tane_fds_match_fixture_exactly() {
+    let fixture = load_fixture();
+    let table = load_dataset(&fixture);
+
+    let mut expected: Vec<(Vec<String>, String)> = fixture["rules"]["fd"]["items"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|fd| {
+            let mut lhs = strings(&fd["lhs"]);
+            lhs.sort();
+            (lhs, fd["rhs"].as_str().unwrap().to_owned())
+        })
+        .collect();
+    expected.sort();
+
+    let mut actual: Vec<(Vec<String>, String)> = discover_fds_tane(&table.partitions)
+        .iter()
+        .map(|fd| (names(&table, &fd.lhs), table.columns[fd.rhs].clone()))
+        .collect();
+    actual.sort();
+
     assert_eq!(actual, expected);
 }
 

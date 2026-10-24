@@ -37,6 +37,12 @@ impl ColumnSet {
         Self { bits }
     }
 
+    pub fn intersection(&self, other: &Self) -> Self {
+        let mut bits = self.bits.clone();
+        bits.intersect_with(&other.bits);
+        Self { bits }
+    }
+
     pub fn contains(&self, column: usize) -> bool {
         self.bits.contains(column)
     }

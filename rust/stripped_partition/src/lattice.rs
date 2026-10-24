@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use rustc_hash::FxHashSet;
 
 use crate::column_set::ColumnSet;
 
@@ -8,7 +8,7 @@ use crate::column_set::ColumnSet;
 /// Each `T` is generated once, from `T` without its largest column, so the
 /// result has no duplicates and the input order is irrelevant.
 pub fn next_level(prev: &[ColumnSet], num_columns: usize) -> Vec<ColumnSet> {
-    let known: HashSet<&ColumnSet> = prev.iter().collect();
+    let known: FxHashSet<&ColumnSet> = prev.iter().collect();
     let mut next = Vec::new();
     for set in prev {
         let start = set.max().map_or(0, |m| m + 1);

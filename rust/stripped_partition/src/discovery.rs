@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use rustc_hash::FxHashMap;
 
 use crate::column_set::ColumnSet;
 use crate::lattice::next_level;
@@ -12,7 +12,7 @@ use crate::partition::StrippedPartition;
 pub fn discover_uccs(columns: &[StrippedPartition]) -> Vec<ColumnSet> {
     let n = columns.len();
     let mut uccs = Vec::new();
-    let mut level: HashMap<ColumnSet, StrippedPartition> = HashMap::new();
+    let mut level: FxHashMap<ColumnSet, StrippedPartition> = FxHashMap::default();
 
     for (c, partition) in columns.iter().enumerate() {
         let set = ColumnSet::singleton(n, c);
@@ -25,7 +25,7 @@ pub fn discover_uccs(columns: &[StrippedPartition]) -> Vec<ColumnSet> {
 
     while !level.is_empty() {
         let sets: Vec<ColumnSet> = level.keys().cloned().collect();
-        let mut next = HashMap::new();
+        let mut next = FxHashMap::default();
         for candidate in next_level(&sets, n) {
             let last = candidate.max().expect("candidates are non-empty");
             let parent_partition = &level[&candidate.without(last)];

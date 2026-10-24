@@ -6,6 +6,7 @@ publish = false
 
 [dependencies]
 fixedbitset = "0.5"
+rustc-hash = "2.1.3"
 
 [dev-dependencies]
 csv = "1"
