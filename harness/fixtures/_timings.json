@@ -1,0 +1,33 @@
+{
+  "threads": 1,
+  "seconds": {
+    "bank": {
+      "fd:Pyro": 0.8438,
+      "fd:DFD": 1.1201,
+      "ucc:HyUCC": 0.0478,
+      "ucc:PyroUCC": 0.1036,
+      "ind:Spider": 0.0073
+    },
+    "bank-additional": {
+      "fd:Pyro": 3.1082,
+      "fd:DFD": 5.2811,
+      "ucc:HyUCC": 0.1047,
+      "ucc:PyroUCC": 0.2409,
+      "ind:Spider": 0.0071
+    },
+    "bank-additional-full": {
+      "fd:Pyro": 10.2737,
+      "fd:DFD": 15.2714,
+      "ucc:HyUCC": 0.3329,
+      "ucc:PyroUCC": 0.2381,
+      "ind:Spider": 0.0661
+    },
+    "bank-full": {
+      "fd:Pyro": 2.768,
+      "fd:DFD": 4.904,
+      "ucc:HyUCC": 0.2356,
+      "ucc:PyroUCC": 0.3066,
+      "ind:Spider": 0.0622
+    }
+  }
+}

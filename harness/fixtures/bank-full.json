@@ -1,0 +1,8048 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "name": "bank-full",
+    "file": "bank+marketing/bank/bank-full.csv",
+    "source": "https://archive.ics.uci.edu/dataset/222/bank+marketing",
+    "sha256": "d1513ec63b385506f7cfce9f2c5caa9fe99e7ba4e8c3fa264b3aaf0f849ed32d",
+    "separator": ";",
+    "num_rows": 45211,
+    "num_columns": 17,
+    "columns": [
+      "age",
+      "job",
+      "marital",
+      "education",
+      "default",
+      "balance",
+      "housing",
+      "loan",
+      "contact",
+      "day",
+      "month",
+      "duration",
+      "campaign",
+      "pdays",
+      "previous",
+      "poutcome",
+      "y"
+    ]
+  },
+  "generator": {
+    "tool": "desbordante",
+    "version": "2.5.0"
+  },
+  "rules": {
+    "fd": {
+      "algorithms": [
+        "Pyro",
+        "DFD"
+      ],
+      "options": {
+        "Pyro": {
+          "error": 0.0,
+          "seed": 0
+        },
+        "DFD": {}
+      },
+      "count": 626,
+      "items": [
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "job"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "marital"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "marital"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "marital"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ],
+          "rhs": "marital"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "marital"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "education"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration",
+            "y"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "default"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "default",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "housing"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "y"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "y"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "y"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "loan"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "month",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "contact"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "day"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "month"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "campaign"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "campaign",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "contact",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "contact",
+            "day",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "loan",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "duration",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "previous",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "contact",
+            "day",
+            "campaign",
+            "previous",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "previous",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "housing",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "housing",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "previous",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome",
+            "y"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "balance",
+            "day",
+            "duration",
+            "previous",
+            "poutcome"
+          ],
+          "rhs": "pdays"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "contact",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "loan",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "day",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "day",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "default",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "housing",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "housing",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "duration",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "default",
+            "housing",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "housing",
+            "loan",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "job",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "duration",
+            "campaign",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "housing",
+            "loan",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "pdays",
+            "poutcome"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "balance",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "previous"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "month",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "month",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "loan",
+            "month",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "loan",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "housing",
+            "loan",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "duration",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "loan",
+            "day",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "day",
+            "duration",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "loan",
+            "day",
+            "duration",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "default",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "loan",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "balance",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "loan",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "education",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "default",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "day",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "month",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "job",
+            "duration",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "month",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "month",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "campaign",
+            "pdays",
+            "previous",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "housing",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "month",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "day",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "y"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "marital",
+            "month",
+            "duration",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "education",
+            "housing",
+            "month",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "education",
+            "loan",
+            "month",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "education",
+            "day",
+            "duration",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "balance",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "day",
+            "duration",
+            "campaign",
+            "pdays",
+            "previous"
+          ],
+          "rhs": "poutcome"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "education",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "housing",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "marital",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "education",
+            "housing",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "housing",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "job",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "housing",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "education",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "balance",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "housing",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "marital",
+            "day",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "education",
+            "balance",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "housing",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "age",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "default",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "default",
+            "balance",
+            "contact",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "marital",
+            "balance",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "job",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "education",
+            "balance",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "marital",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "housing",
+            "loan",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "loan",
+            "month",
+            "duration",
+            "campaign",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "duration"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "housing",
+            "loan",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "pdays"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "previous"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "poutcome"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "loan",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        },
+        {
+          "lhs": [
+            "balance",
+            "contact",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ],
+          "rhs": "y"
+        }
+      ]
+    },
+    "ucc": {
+      "algorithms": [
+        "HyUCC",
+        "PyroUCC"
+      ],
+      "options": {
+        "HyUCC": {},
+        "PyroUCC": {
+          "error": 0.0,
+          "seed": 0
+        }
+      },
+      "count": 17,
+      "items": [
+        {
+          "columns": [
+            "age",
+            "job",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "month",
+            "duration"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "day",
+            "duration",
+            "campaign"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "campaign"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "balance",
+            "day",
+            "month",
+            "duration",
+            "campaign"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "housing",
+            "day",
+            "duration"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "job",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "loan",
+            "contact",
+            "day",
+            "duration"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "job",
+            "marital",
+            "balance",
+            "housing",
+            "month",
+            "duration",
+            "campaign"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "marital",
+            "education",
+            "balance",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "pdays"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "previous"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "poutcome"
+          ]
+        },
+        {
+          "columns": [
+            "age",
+            "education",
+            "balance",
+            "housing",
+            "contact",
+            "day",
+            "duration",
+            "y"
+          ]
+        }
+      ]
+    },
+    "ind": {
+      "algorithms": [
+        "Spider"
+      ],
+      "options": {
+        "Spider": {}
+      },
+      "count": 22,
+      "items": [
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "age"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "balance"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "age"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "duration"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "day"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "balance"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "day"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "duration"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "day"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "campaign"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "campaign"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "balance"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "campaign"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "duration"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "pdays"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "balance"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "previous"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "balance"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "previous"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "duration"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "default"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "housing"
+            ]
+          }
+        },
+        {
+          "lhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "y"
+            ]
+          },
+          "rhs": {
+            "table": "bank-full.csv",
+            "columns": [
+              "loan"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
