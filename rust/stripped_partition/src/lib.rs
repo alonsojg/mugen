@@ -10,6 +10,7 @@ mod column_set;
 mod discovery;
 mod lattice;
 mod partition;
+mod pyro;
 mod tane;
 
 pub use afd::{discover_afds_tane, Afd, AfdMeasure};
@@ -17,4 +18,5 @@ pub use column_set::ColumnSet;
 pub use discovery::{discover_fds, discover_uccs, Fd};
 pub use lattice::next_level;
 pub use partition::{RowId, StrippedPartition, ValueId, SINGLETON};
+pub use pyro::discover_fds_pyro;
 pub use tane::discover_fds_tane;

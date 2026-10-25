@@ -1,12 +1,12 @@
-//! Times `discover_fds_tane` on the UCI bank datasets.
+//! Times `discover_fds_tane` or `discover_fds_pyro` on the UCI bank datasets.
 //!
-//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds>`
+//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds> [tane|pyro]`
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Instant;
 
-use stripped_partition::{discover_fds_tane, StrippedPartition, ValueId};
+use stripped_partition::{discover_fds_pyro, discover_fds_tane, Fd, StrippedPartition, ValueId};
 
 const DATASETS: &[&str] = &[
     "bank+marketing/bank/bank.csv",
@@ -41,6 +41,12 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
     let root = PathBuf::from(&args[1]);
     let rounds: usize = args[2].parse().expect("rounds");
+    let algorithm = args.get(3).map_or("tane", String::as_str);
+    let discover: fn(&[StrippedPartition]) -> Vec<Fd> = match algorithm {
+        "tane" => |c| discover_fds_tane(c),
+        "pyro" => |c| discover_fds_pyro(c, 0.0),
+        other => panic!("unknown algorithm {other}"),
+    };
 
     for name in DATASETS {
         let path = root.join(name);
@@ -53,7 +59,7 @@ fn main() {
             best_load = best_load.min(start.elapsed().as_secs_f64());
 
             let start = Instant::now();
-            let fds = discover_fds_tane(&columns);
+            let fds = discover(&columns);
             best_discover = best_discover.min(start.elapsed().as_secs_f64());
             count = fds.len();
         }
