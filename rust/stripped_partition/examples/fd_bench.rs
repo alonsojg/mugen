@@ -1,12 +1,16 @@
 //! Times `discover_fds_tane` or `discover_fds_pyro` on the UCI bank datasets.
 //!
-//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds> [tane|pyro] [dataset-substring]`
+//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds> [tane|pyro|pyro:K] [dataset-substring]`
+//! `pyro:K` reports only minimal FDs with at most K left-hand side columns.
 
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Instant;
 
-use stripped_partition::{discover_fds_pyro, discover_fds_tane, Fd, StrippedPartition, ValueId};
+use stripped_partition::{
+    discover_fds_pyro, discover_fds_pyro_limited, discover_fds_tane, Fd, StrippedPartition,
+    ValueId, DEFAULT_CACHE_BUDGET_BYTES,
+};
 
 const DATASETS: &[&str] = &[
     "bank+marketing/bank/bank.csv",
@@ -14,6 +18,7 @@ const DATASETS: &[&str] = &[
     "bank+marketing/bank-additional/bank-additional/bank-additional.csv",
     "bank+marketing/bank-additional/bank-additional/bank-additional-full.csv",
     "cargo+2000+freight+tracking+and+tracing/c2k_data_comma.csv",
+    "cargo+2000+freight+tracking+and+tracing/c2k_subset14.csv",
 ];
 
 /// Picks `,` or `;`, whichever splits the header into more fields.
@@ -54,10 +59,19 @@ fn main() {
     let root = PathBuf::from(&args[1]);
     let rounds: usize = args[2].parse().expect("rounds");
     let algorithm = args.get(3).map_or("tane", String::as_str);
-    let discover: fn(&[StrippedPartition]) -> Vec<Fd> = match algorithm {
-        "tane" => |c| discover_fds_tane(c),
-        "pyro" => |c| discover_fds_pyro(c, 0.0),
-        other => panic!("unknown algorithm {other}"),
+    type Discover = Box<dyn Fn(&[StrippedPartition]) -> Vec<Fd>>;
+    let discover: Discover = match algorithm {
+        "tane" => Box::new(discover_fds_tane),
+        "pyro" => Box::new(|c| discover_fds_pyro(c, 0.0)),
+        other => {
+            let max_lhs: usize = other
+                .strip_prefix("pyro:")
+                .and_then(|k| k.parse().ok())
+                .unwrap_or_else(|| panic!("unknown algorithm {other}"));
+            Box::new(move |c| {
+                discover_fds_pyro_limited(c, 0.0, max_lhs, DEFAULT_CACHE_BUDGET_BYTES)
+            })
+        }
     };
 
     let only = args.get(4).map(String::as_str);

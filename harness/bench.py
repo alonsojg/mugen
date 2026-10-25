@@ -39,6 +39,9 @@ def main() -> None:
     parser.add_argument("--rounds", type=int, default=3)
     parser.add_argument("--algorithm", choices=sorted(ALGORITHMS))
     parser.add_argument("--dataset", help="substring of the dataset path to run")
+    parser.add_argument(
+        "--max-lhs", type=int, default=None, help="cap on left-hand side size (Pyro only)"
+    )
     args = parser.parse_args()
 
     for dataset in DATASETS.values():
@@ -48,8 +51,10 @@ def main() -> None:
         for name, (cls, options) in ALGORITHMS.items():
             if args.algorithm and name != args.algorithm:
                 continue
+            if args.max_lhs is not None and name == "Pyro":
+                options = {**options, "max_lhs": args.max_lhs}
             seconds, count = time_algorithm(cls, options, path, dataset.separator, args.rounds)
-            print(f"{dataset.name}\t{name}\tfds={count}\ttotal={seconds:.4f}")
+            print(f"{dataset.name}\t{name}\tmax_lhs={args.max_lhs}\tfds={count}\ttotal={seconds:.4f}")
 
 
 if __name__ == "__main__":

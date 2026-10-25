@@ -44,12 +44,24 @@ pub fn discover_fds_pyro_with_budget(
     max_error: f64,
     total_cache_bytes: usize,
 ) -> Vec<Fd> {
-    let Some(first) = columns.first() else {
+    discover_fds_pyro_limited(columns, max_error, usize::MAX, total_cache_bytes)
+}
+
+/// Like [`discover_fds_pyro_with_budget`], reporting only minimal FDs whose
+/// left-hand side has at most `max_lhs` columns. The reported FDs are exactly
+/// the minimal FDs of the uncapped search with that size bound.
+pub fn discover_fds_pyro_limited(
+    columns: &[StrippedPartition],
+    max_error: f64,
+    max_lhs: usize,
+    total_cache_bytes: usize,
+) -> Vec<Fd> {
+    if columns.is_empty() {
         return Vec::new();
-    };
-    let num_rows = first.relation_size();
+    }
     let per_thread_bytes = total_cache_bytes / rayon::current_num_threads().max(1);
     let column_tables: Vec<Vec<ValueId>> = columns.par_iter().map(|c| c.probing_table()).collect();
+
     let key_space = column_tables
         .iter()
         .flatten()
@@ -63,9 +75,9 @@ pub fn discover_fds_pyro_with_budget(
                 columns,
                 &column_tables,
                 key_space,
-                num_rows,
                 rhs,
                 max_error,
+                max_lhs,
                 per_thread_bytes,
             )
             .run()
@@ -92,6 +104,8 @@ struct RhsSearch<'a> {
     universe: ColumnSet,
     /// Largest number of violating row pairs that still counts as a dependency.
     max_violations: f64,
+    /// Largest left-hand side size searched. Minimal FDs above it are not reported.
+    max_lhs: usize,
     /// Partitions of visited left-hand sides, keyed by column set.
     cache: FxHashMap<ColumnSet, CacheEntry>,
     /// Unpinned cache keys by last use, oldest first.
@@ -111,12 +125,13 @@ impl<'a> RhsSearch<'a> {
         columns: &'a [StrippedPartition],
         column_tables: &'a [Vec<ValueId>],
         key_space: usize,
-        num_rows: u32,
         rhs: usize,
         max_error: f64,
+        max_lhs: usize,
         cache_budget: usize,
     ) -> Self {
         let num_columns = columns.len();
+        let num_rows = columns[0].relation_size();
         let n = f64::from(num_rows);
         let total_pairs = n * (n - 1.0) / 2.0;
         let mut cache = FxHashMap::default();
@@ -135,6 +150,7 @@ impl<'a> RhsSearch<'a> {
             rhs,
             universe: ColumnSet::from_columns(num_columns, (0..num_columns).filter(|&c| c != rhs)),
             max_violations: max_error * total_pairs,
+            max_lhs,
             cache,
             lru: BTreeMap::new(),
             clock: 0,
@@ -273,6 +289,7 @@ impl<'a> RhsSearch<'a> {
                 candidates.extend(complement.iter().map(|&c| t.with(c)));
             }
         }
+        candidates.retain(|s| s.len() <= self.max_lhs);
         candidates.sort_by_key(ColumnSet::len);
         let mut minimal: Vec<ColumnSet> = Vec::with_capacity(candidates.len());
         for s in candidates {
@@ -405,6 +422,41 @@ mod tests {
             normalize(&discover_fds_pyro(&cols, 0.0)),
             vec![(Vec::new(), 0)]
         );
+    }
+
+    #[test]
+    fn lhs_cap_returns_minimal_fds_up_to_the_cap() {
+        let mut state: u64 = 0x9E37_79B9_7F4A_7C15;
+        let mut next = move |bound: u32| {
+            state = state
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
+            ((state >> 33) as u32) % bound
+        };
+
+        for _ in 0..60 {
+            let num_columns = 4 + next(3) as usize;
+            let num_rows = 3 + next(25) as usize;
+            let rows: Vec<Vec<u32>> = (0..num_rows)
+                .map(|_| (0..num_columns).map(|_| next(3)).collect())
+                .collect();
+            let cols = partitions(&rows, num_columns);
+            let full = discover_fds_pyro(&cols, 0.0);
+
+            for max_lhs in 0..=num_columns {
+                let expected: Vec<Fd> = full
+                    .iter()
+                    .filter(|fd| fd.lhs.len() <= max_lhs)
+                    .cloned()
+                    .collect();
+                let capped = discover_fds_pyro_limited(&cols, 0.0, max_lhs, 1 << 20);
+                assert_eq!(
+                    normalize(&capped),
+                    normalize(&expected),
+                    "max_lhs {max_lhs}, rows: {rows:?}"
+                );
+            }
+        }
     }
 
     #[test]
