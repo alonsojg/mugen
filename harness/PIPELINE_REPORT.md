@@ -111,8 +111,10 @@ mugen run was also a timeout in the earlier Pyro session, where it ran past
    frame internally, and each conversion is inside its timer.
 3. **Null handling.** mugen treats all nulls in a column as one value that equals
    each other and differs from any non-null value. The Cargo data has no nulls,
-   so this path is not exercised. Desbordante's null handling on the DataFrame
-   path was not checked, so the two sides may disagree on data that has nulls.
+   so this path is not exercised by the main results. On a 5-row toy table with
+   nulls (`harness/mugen_walkthrough.ipynb`, Step 10), Desbordante returned the
+   same four FDs as mugen, so it also treats nulls as equal. This is one small
+   case, not a proof for all null patterns.
 4. **Dictionary encoding copies.** The Arrow stream is read without copying, but
    each column is cast to UTF-8 and each value is looked up in a hash map to get a
    `u32` code. That is a copy into the codes array, not the zero-copy CSR
