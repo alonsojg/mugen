@@ -27,6 +27,9 @@ use crate::partition::{ProbeScratch, StrippedPartition, ValueId};
 /// Default total budget, in bytes, for cached partitions across all parallel searches.
 pub const DEFAULT_CACHE_BUDGET_BYTES: usize = 2 << 30;
 
+/// Rough size of one memoized violation count, used to convert a byte budget into an entry limit.
+const MEMO_ENTRY_BYTES: usize = 128;
+
 /// Minimal FDs `lhs -> rhs` whose G1 error is at most `max_error`.
 ///
 /// With `max_error = 0.0` these are the exact minimal FDs, matching
@@ -114,8 +117,10 @@ struct RhsSearch<'a> {
     /// Bytes held by unpinned cache entries.
     cache_bytes: usize,
     cache_budget: usize,
-    /// Violating row pairs of `lhs -> rhs`, keyed by `lhs`.
+    /// Violating row pairs of `lhs -> rhs`, keyed by `lhs`. Cleared when it
+    /// exceeds `memo_limit`, since every value can be recomputed.
     violations: FxHashMap<ColumnSet, u64>,
+    memo_limit: usize,
     /// Minimal hitting sets of the complements of the non-dependencies found so far.
     transversals: Vec<ColumnSet>,
 }
@@ -157,6 +162,7 @@ impl<'a> RhsSearch<'a> {
             cache_bytes: 0,
             cache_budget,
             violations: FxHashMap::default(),
+            memo_limit: (cache_budget / MEMO_ENTRY_BYTES).max(1),
             transversals: vec![ColumnSet::empty(num_columns)],
         }
     }
@@ -196,6 +202,9 @@ impl<'a> RhsSearch<'a> {
         let lhs_part = &self.cache[lhs].part;
         let joint_nep = lhs_part.joint_nep_with(&self.column_tables[self.rhs], &mut self.scratch);
         let v = lhs_part.nep() - joint_nep;
+        if self.violations.len() >= self.memo_limit {
+            self.violations.clear();
+        }
         self.violations.insert(lhs.clone(), v);
         v
     }
