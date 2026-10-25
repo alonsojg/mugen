@@ -210,7 +210,7 @@ A 1-thread TANE fix for memory changed the peak but not the discovered FDs.
 ## Reproducing
 
 - Desbordante: `.venv/bin/python harness/bench.py --rounds 1 --algorithm Pyro --dataset <path>`
-- Rust: `cd rust/stripped_partition && RAYON_NUM_THREADS=1 cargo run --release --example fd_bench -- /home/alonso/mugen 1 pyro <dataset-filter>`. Use anchored filters such as `/bank-full.csv`.
-- Rust, Cargo cap 3: `cd rust/stripped_partition && cargo run --release --example fd_bench -- /home/alonso/mugen 1 pyro:3 c2k_data_comma`. Use `pyro` without a cap for the uncapped run. Use `c2k_subset14` for the 14-column subset.
+- Rust: `cd rust/stripped_partition && RAYON_NUM_THREADS=1 cargo run --release --example fd_bench -- /path/to/mugen 1 pyro <dataset-filter>`. Use anchored filters such as `/bank-full.csv`.
+- Rust, Cargo cap 3: `cd rust/stripped_partition && cargo run --release --example fd_bench -- /path/to/mugen 1 pyro:3 c2k_data_comma`. Use `pyro` without a cap for the uncapped run. Use `c2k_subset14` for the 14-column subset.
 - Desbordante, Cargo cap 3: `.venv/bin/python harness/bench.py --rounds 1 --algorithm Pyro --dataset c2k_data_comma --max-lhs 3`
 - Correctness: `cargo test --release` (21 unit tests, 7 fixture tests).

@@ -163,6 +163,22 @@ rust/stripped_partition/   core Rust library (partitions, lattice, TANE, Pyro)
 rust/mugen/                PyO3 module exposed to Python as `mugen`
 ```
 
+## Datasets
+
+All datasets come from the [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/datasets). The archives and extracted folders are listed in `.gitignore`, so they are not committed.
+
+| Dataset | Archive / folder | Rows × columns | Source |
+|---|---|---|---|
+| Bank Marketing | `bank+marketing.zip` / `bank+marketing/` | 45,211 × 17 | [UCI id 222](https://archive.ics.uci.edu/dataset/222/bank+marketing) [1] |
+| Cargo 2000 Freight Tracking and Tracing | `cargo+2000+freight+tracking+and+tracing.zip` / `cargo+2000+freight+tracking+and+tracing/` | 3,943 × 98 in `c2k_data_comma.csv` (UCI lists 3,942 instances) | [UCI id 382](https://archive.ics.uci.edu/dataset/382/cargo+2000+freight+tracking+and+tracing) [2] |
+| Superconductivity | `superconductivty+data.zip` / `superconductivity/` | 21,263 × 82 | [UCI id 464](https://archive.ics.uci.edu/dataset/464/superconductivty+data) [3] |
+
+References:
+
+1. S. Moro, P. Cortez, and P. Rita. "A Data-Driven Approach to Predict the Success of Bank Telemarketing." *Decision Support Systems*, 62, 22–31, 2014. Dataset: UCI Machine Learning Repository, https://archive.ics.uci.edu/dataset/222/bank+marketing
+2. A. Metzger. "Cargo 2000 Freight Tracking and Tracing." UCI Machine Learning Repository, 2015. https://archive.ics.uci.edu/dataset/382/cargo+2000+freight+tracking+and+tracing (no DOI is listed on the page)
+3. K. Hamidieh. "Superconductivty Data." UCI Machine Learning Repository, 2018. https://doi.org/10.24432/C53P47
+
 ## Setup and reproduction
 
 ```bash
