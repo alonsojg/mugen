@@ -32,10 +32,16 @@ pub fn discover_fds_pyro(columns: &[StrippedPartition], max_error: f64) -> Vec<F
     };
     let num_rows = first.relation_size();
     let column_tables: Vec<Vec<ValueId>> = columns.par_iter().map(|c| c.probing_table()).collect();
+    let key_space = column_tables
+        .iter()
+        .flatten()
+        .copied()
+        .max()
+        .map_or(0, |m| m as usize + 1);
     (0..columns.len())
         .into_par_iter()
         .flat_map_iter(|rhs| {
-            RhsSearch::new(columns, &column_tables, num_rows, rhs, max_error)
+            RhsSearch::new(columns, &column_tables, key_space, num_rows, rhs, max_error)
                 .run()
                 .into_iter()
                 .map(move |lhs| Fd { lhs, rhs })
@@ -65,6 +71,7 @@ impl<'a> RhsSearch<'a> {
     fn new(
         columns: &'a [StrippedPartition],
         column_tables: &'a [Vec<ValueId>],
+        key_space: usize,
         num_rows: u32,
         rhs: usize,
         max_error: f64,
@@ -80,7 +87,7 @@ impl<'a> RhsSearch<'a> {
         Self {
             columns,
             column_tables,
-            scratch: ProbeScratch::default(),
+            scratch: ProbeScratch::with_key_space(key_space),
             rhs,
             universe: ColumnSet::from_columns(num_columns, (0..num_columns).filter(|&c| c != rhs)),
             max_violations: max_error * total_pairs,
@@ -123,8 +130,8 @@ impl<'a> RhsSearch<'a> {
         }
         self.ensure_partition(lhs);
         let lhs_part = &self.cache[lhs];
-        let joint = lhs_part.probe_with(&self.column_tables[self.rhs], &mut self.scratch);
-        let v = lhs_part.nep() - joint.nep();
+        let joint_nep = lhs_part.joint_nep_with(&self.column_tables[self.rhs], &mut self.scratch);
+        let v = lhs_part.nep() - joint_nep;
         self.violations.insert(lhs.clone(), v);
         v
     }

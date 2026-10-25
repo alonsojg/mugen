@@ -12,6 +12,16 @@ pub struct ProbeScratch {
     cursor: Vec<usize>,
 }
 
+impl ProbeScratch {
+    /// Buffers large enough for probing tables whose values are below `key_space`.
+    pub fn with_key_space(key_space: usize) -> Self {
+        Self {
+            counts: vec![0; key_space],
+            cursor: vec![0; key_space],
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct StrippedPartition {
     rows: Vec<RowId>,
@@ -153,22 +163,52 @@ impl StrippedPartition {
 
     /// Refines this partition by the probing table of another one.
     pub fn probe(&self, probing_table: &[ValueId]) -> Self {
-        self.probe_with(probing_table, &mut ProbeScratch::default())
-    }
-
-    /// Like [`probe`](Self::probe), reusing `scratch` across calls.
-    pub fn probe_with(&self, probing_table: &[ValueId], scratch: &mut ProbeScratch) -> Self {
-        assert_eq!(probing_table.len(), self.relation_size as usize);
-
         let key_space = probing_table
             .iter()
             .copied()
             .max()
             .map_or(0, |m| m as usize + 1);
-        if scratch.counts.len() < key_space {
-            scratch.counts.resize(key_space, 0);
-            scratch.cursor.resize(key_space, 0);
+        self.probe_with(probing_table, &mut ProbeScratch::with_key_space(key_space))
+    }
+
+    /// Number of row pairs that agree on this partition and on `probing_table`.
+    ///
+    /// Equal to `self.probe_with(probing_table, scratch).nep()`, but without
+    /// materializing the refined partition.
+    pub fn joint_nep_with(&self, probing_table: &[ValueId], scratch: &mut ProbeScratch) -> u64 {
+        assert_eq!(probing_table.len(), self.relation_size as usize);
+        let counts = &mut scratch.counts;
+        let mut touched: Vec<ValueId> = Vec::new();
+        let mut pairs = 0u64;
+
+        for cluster in self.clusters() {
+            for &row in cluster {
+                let v = probing_table[row as usize];
+                if v == SINGLETON {
+                    continue;
+                }
+                if counts[v as usize] == 0 {
+                    touched.push(v);
+                }
+                counts[v as usize] += 1;
+            }
+            for &v in &touched {
+                let c = u64::from(counts[v as usize]);
+                pairs += c * (c - 1) / 2;
+                counts[v as usize] = 0;
+            }
+            touched.clear();
         }
+        pairs
+    }
+
+    /// Like [`probe`](Self::probe), reusing `scratch` across calls.
+    ///
+    /// `scratch` must have been sized with [`ProbeScratch::with_key_space`] for
+    /// a key space at least as large as the values in `probing_table`.
+    pub fn probe_with(&self, probing_table: &[ValueId], scratch: &mut ProbeScratch) -> Self {
+        assert_eq!(probing_table.len(), self.relation_size as usize);
+
         let counts = &mut scratch.counts;
         let cursor = &mut scratch.cursor;
         let mut touched: Vec<ValueId> = Vec::new();
@@ -259,6 +299,19 @@ mod tests {
                 *ids.entry(*k).or_insert(next)
             })
             .collect()
+    }
+
+    #[test]
+    fn joint_nep_matches_probe_nep() {
+        let values: Vec<u32> = vec![0, 0, 0, 1, 1, 2, 2, 2, 2, 3];
+        let other: Vec<u32> = vec![5, 5, 6, 6, 6, 5, 5, 5, 7, 7];
+        let part = StrippedPartition::from_values(&values);
+        let table = StrippedPartition::from_values(&other).probing_table();
+        let mut scratch = ProbeScratch::with_key_space(8);
+        assert_eq!(
+            part.joint_nep_with(&table, &mut scratch),
+            part.probe(&table).nep()
+        );
     }
 
     struct Lcg(u64);

@@ -1,1 +1,3 @@
 rust/stripped_partition/target/
+.venv/
+__pycache__/
