@@ -18,5 +18,5 @@ pub use column_set::ColumnSet;
 pub use discovery::{discover_fds, discover_uccs, Fd};
 pub use lattice::next_level;
 pub use partition::{ProbeScratch, RowId, StrippedPartition, ValueId, SINGLETON};
-pub use pyro::discover_fds_pyro;
+pub use pyro::{discover_fds_pyro, discover_fds_pyro_with_budget, DEFAULT_CACHE_BUDGET_BYTES};
 pub use tane::discover_fds_tane;

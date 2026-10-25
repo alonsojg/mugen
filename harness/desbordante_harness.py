@@ -72,6 +72,12 @@ DATASETS: dict[str, DatasetSpec] = {
             "bank-additional-full",
             "bank+marketing/bank-additional/bank-additional/bank-additional-full.csv",
         ),
+        DatasetSpec(
+            "cargo",
+            "cargo+2000+freight+tracking+and+tracing/c2k_data_comma.csv",
+            separator=",",
+            source="Cargo 2000 Freight Tracking and Tracing (local copy)",
+        ),
     ]
 }
 

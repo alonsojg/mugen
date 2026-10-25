@@ -171,6 +171,11 @@ impl StrippedPartition {
         self.probe_with(probing_table, &mut ProbeScratch::with_key_space(key_space))
     }
 
+    /// Approximate heap bytes held by the row and offset arrays.
+    pub fn memory_bytes(&self) -> usize {
+        (self.rows.len() + self.offsets.len()) * std::mem::size_of::<u32>()
+    }
+
     /// Number of row pairs that agree on this partition and on `probing_table`.
     ///
     /// Equal to `self.probe_with(probing_table, scratch).nep()`, but without

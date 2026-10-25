@@ -13,11 +13,23 @@ const DATASETS: &[&str] = &[
     "bank+marketing/bank/bank-full.csv",
     "bank+marketing/bank-additional/bank-additional/bank-additional.csv",
     "bank+marketing/bank-additional/bank-additional/bank-additional-full.csv",
+    "cargo+2000+freight+tracking+and+tracing/c2k_data_comma.csv",
 ];
+
+/// Picks `,` or `;`, whichever splits the header into more fields.
+fn detect_delimiter(path: &PathBuf) -> u8 {
+    let text = std::fs::read_to_string(path).expect("dataset csv must exist");
+    let header = text.lines().next().unwrap_or_default();
+    if header.matches(',').count() > header.matches(';').count() {
+        b','
+    } else {
+        b';'
+    }
+}
 
 fn load(path: &PathBuf) -> Vec<StrippedPartition> {
     let mut reader = csv::ReaderBuilder::new()
-        .delimiter(b';')
+        .delimiter(detect_delimiter(path))
         .from_path(path)
         .expect("dataset csv must exist");
     let num_columns = reader.headers().expect("csv header").len();
