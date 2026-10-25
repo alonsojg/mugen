@@ -2,7 +2,7 @@ use rustc_hash::FxHashMap;
 
 use crate::column_set::ColumnSet;
 use crate::discovery::Fd;
-use crate::partition::StrippedPartition;
+use crate::partition::{StrippedPartition, ValueId};
 
 /// A lattice node: a column set with its rhs candidates (C+) and partition.
 struct Vertex {
@@ -62,8 +62,9 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
     compute_dependencies(&mut level, None, empty_clusters, &mut fds);
     prune(&mut level, &mut fds);
 
+    let mut column_tables = vec![None; n];
     while !level.vertices.is_empty() {
-        let mut next = Level::new(generate_next(&level, columns));
+        let mut next = Level::new(generate_next(&level, columns, &mut column_tables));
         compute_dependencies(&mut next, Some(&level), empty_clusters, &mut fds);
         prune(&mut next, &mut fds);
         level = next;
@@ -72,10 +73,32 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
     fds
 }
 
+/// Intersects `parent` with `column`, matching [`StrippedPartition::intersect`]
+/// but reusing probing tables: the parent's is built at most once per call
+/// site, and each column's is built once for the whole discovery.
+fn intersect_cached(
+    parent: &StrippedPartition,
+    column: &StrippedPartition,
+    parent_table: &mut Option<Vec<ValueId>>,
+    column_table: &mut Option<Vec<ValueId>>,
+) -> StrippedPartition {
+    if parent.size() > column.size() {
+        let table = parent_table.get_or_insert_with(|| parent.probing_table());
+        column.probe(table)
+    } else {
+        let table = column_table.get_or_insert_with(|| column.probing_table());
+        parent.probe(table)
+    }
+}
+
 /// Joins pairs of vertices that share all but their last column. A child is
 /// kept only if every one of its immediate subsets survived the previous
 /// level's pruning and some rhs candidate remains.
-fn generate_next(prev: &Level, columns: &[StrippedPartition]) -> Vec<Vertex> {
+fn generate_next(
+    prev: &Level,
+    columns: &[StrippedPartition],
+    column_tables: &mut [Option<Vec<ValueId>>],
+) -> Vec<Vertex> {
     let keys: Vec<Vec<usize>> = prev
         .vertices
         .iter()
@@ -85,6 +108,7 @@ fn generate_next(prev: &Level, columns: &[StrippedPartition]) -> Vec<Vertex> {
     let mut next = Vec::new();
 
     for i in 0..keys.len() {
+        let mut parent_table = None;
         for j in i + 1..keys.len() {
             if keys[i][..arity - 1] != keys[j][..arity - 1] {
                 break;
@@ -115,7 +139,12 @@ fn generate_next(prev: &Level, columns: &[StrippedPartition]) -> Vec<Vertex> {
             if rhs.is_empty() {
                 continue;
             }
-            let pli = parent.pli.intersect(&columns[last]);
+            let pli = intersect_cached(
+                &parent.pli,
+                &columns[last],
+                &mut parent_table,
+                &mut column_tables[last],
+            );
             next.push(Vertex { cols, rhs, pli });
         }
     }
