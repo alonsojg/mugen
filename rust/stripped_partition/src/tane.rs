@@ -9,7 +9,22 @@ use crate::partition::{StrippedPartition, ValueId};
 struct Vertex {
     cols: ColumnSet,
     rhs: ColumnSet,
-    pli: StrippedPartition,
+    clusters: usize,
+    nep: u64,
+    /// Taken once the next level has been generated from this vertex.
+    pli: Option<StrippedPartition>,
+}
+
+impl Vertex {
+    fn new(cols: ColumnSet, rhs: ColumnSet, pli: StrippedPartition) -> Self {
+        Self {
+            cols,
+            rhs,
+            clusters: pli.num_clusters(),
+            nep: pli.nep(),
+            pli: Some(pli),
+        }
+    }
 }
 
 /// All vertices of one lattice level, sorted by their column lists, with an
@@ -53,11 +68,7 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
         columns
             .iter()
             .enumerate()
-            .map(|(c, pli)| Vertex {
-                cols: ColumnSet::singleton(n, c),
-                rhs: all.clone(),
-                pli: pli.clone(),
-            })
+            .map(|(c, pli)| Vertex::new(ColumnSet::singleton(n, c), all.clone(), pli.clone()))
             .collect(),
     );
     compute_dependencies(&mut level, None, empty_clusters, &mut fds);
@@ -65,7 +76,7 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
 
     let column_tables: Vec<Vec<ValueId>> = columns.par_iter().map(|c| c.probing_table()).collect();
     while !level.vertices.is_empty() {
-        let mut next = Level::new(generate_next(&level, columns, &column_tables));
+        let mut next = Level::new(generate_next(&mut level, columns, &column_tables));
         compute_dependencies(&mut next, Some(&level), empty_clusters, &mut fds);
         prune(&mut next, &mut fds);
         level = next;
@@ -94,23 +105,27 @@ fn child_partition(
 /// Joins pairs of vertices that share all but their last column. A child is
 /// kept only if every one of its immediate subsets survived the previous
 /// level's pruning and some rhs candidate remains. Parents are processed in
-/// parallel; results keep the sequential order.
+/// parallel; each parent's partition is freed as soon as its children are
+/// built. Results keep the sequential order.
 fn generate_next(
-    prev: &Level,
+    prev: &mut Level,
     columns: &[StrippedPartition],
     column_tables: &[Vec<ValueId>],
 ) -> Vec<Vertex> {
-    let keys: Vec<Vec<usize>> = prev
-        .vertices
+    let Level { vertices, index } = prev;
+    let keys: Vec<Vec<usize>> = vertices
         .iter()
         .map(|v| v.cols.columns().collect())
         .collect();
+    let rhs_of: Vec<ColumnSet> = vertices.iter().map(|v| v.rhs.clone()).collect();
     let arity = keys.first().map_or(0, Vec::len);
 
-    (0..keys.len())
-        .into_par_iter()
-        .flat_map_iter(|i| {
-            let parent = &prev.vertices[i];
+    vertices
+        .par_iter_mut()
+        .enumerate()
+        .flat_map_iter(|(i, parent)| {
+            let parent_pli = parent.pli.take().expect("parent partitions are generated once");
+            let parent_cols = &parent.cols;
             let mut parent_table = None;
             let mut children = Vec::new();
             for j in i + 1..keys.len() {
@@ -118,20 +133,20 @@ fn generate_next(
                     break;
                 }
                 let last = keys[j][arity - 1];
-                let cols = parent.cols.with(last);
+                let cols = parent_cols.with(last);
 
                 let mut rhs: Option<ColumnSet> = None;
                 let mut complete = true;
                 for c in cols.columns() {
-                    match prev.vertex(&cols.without(c)) {
+                    match index.get(&cols.without(c)) {
                         None => {
                             complete = false;
                             break;
                         }
-                        Some(sub) => {
+                        Some(&pos) => {
                             rhs = Some(match rhs {
-                                None => sub.rhs.clone(),
-                                Some(r) => r.intersection(&sub.rhs),
+                                None => rhs_of[pos].clone(),
+                                Some(r) => r.intersection(&rhs_of[pos]),
                             });
                         }
                     }
@@ -143,12 +158,12 @@ fn generate_next(
                     continue;
                 }
                 let pli = child_partition(
-                    &parent.pli,
+                    &parent_pli,
                     &columns[last],
                     &mut parent_table,
                     &column_tables[last],
                 );
-                children.push(Vertex { cols, rhs, pli });
+                children.push(Vertex::new(cols, rhs, pli));
             }
             children
         })
@@ -173,13 +188,13 @@ fn compute_dependencies(
             let lhs = cols.without(a);
             let lhs_clusters = match prev {
                 None => empty_clusters,
-                Some(p) => p
-                    .vertex(&lhs)
-                    .expect("subsets of generated vertices are present")
-                    .pli
-                    .num_clusters(),
+                Some(p) => {
+                    p.vertex(&lhs)
+                        .expect("subsets of generated vertices are present")
+                        .clusters
+                }
             };
-            if lhs_clusters == vertex.pli.num_clusters() {
+            if lhs_clusters == vertex.clusters {
                 fds.push(Fd { lhs, rhs: a });
                 vertex.rhs = vertex.rhs.intersection(&cols).without(a);
             }
@@ -195,7 +210,7 @@ fn compute_dependencies(
 fn prune(level: &mut Level, fds: &mut Vec<Fd>) {
     let mut new_rhs = Vec::with_capacity(level.vertices.len());
     for v in &level.vertices {
-        if v.pli.nep() == 0 {
+        if v.nep == 0 {
             for a in v.rhs.columns().filter(|a| !v.cols.contains(*a)) {
                 let holds = v.cols.columns().all(|b| {
                     level
