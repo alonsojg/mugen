@@ -20,7 +20,7 @@ use rustc_hash::FxHashMap;
 
 use crate::column_set::ColumnSet;
 use crate::discovery::Fd;
-use crate::partition::StrippedPartition;
+use crate::partition::{ProbeScratch, StrippedPartition, ValueId};
 
 /// Minimal FDs `lhs -> rhs` whose G1 error is at most `max_error`.
 ///
@@ -31,10 +31,11 @@ pub fn discover_fds_pyro(columns: &[StrippedPartition], max_error: f64) -> Vec<F
         return Vec::new();
     };
     let num_rows = first.relation_size();
+    let column_tables: Vec<Vec<ValueId>> = columns.par_iter().map(|c| c.probing_table()).collect();
     (0..columns.len())
         .into_par_iter()
         .flat_map_iter(|rhs| {
-            RhsSearch::new(columns, num_rows, rhs, max_error)
+            RhsSearch::new(columns, &column_tables, num_rows, rhs, max_error)
                 .run()
                 .into_iter()
                 .map(move |lhs| Fd { lhs, rhs })
@@ -44,6 +45,10 @@ pub fn discover_fds_pyro(columns: &[StrippedPartition], max_error: f64) -> Vec<F
 
 struct RhsSearch<'a> {
     columns: &'a [StrippedPartition],
+    /// Probing tables of `columns`, built once and shared across right-hand sides.
+    column_tables: &'a [Vec<ValueId>],
+    /// Buffers reused by every probe in this search.
+    scratch: ProbeScratch,
     rhs: usize,
     universe: ColumnSet,
     /// Largest number of violating row pairs that still counts as a dependency.
@@ -57,7 +62,13 @@ struct RhsSearch<'a> {
 }
 
 impl<'a> RhsSearch<'a> {
-    fn new(columns: &'a [StrippedPartition], num_rows: u32, rhs: usize, max_error: f64) -> Self {
+    fn new(
+        columns: &'a [StrippedPartition],
+        column_tables: &'a [Vec<ValueId>],
+        num_rows: u32,
+        rhs: usize,
+        max_error: f64,
+    ) -> Self {
         let num_columns = columns.len();
         let n = f64::from(num_rows);
         let total_pairs = n * (n - 1.0) / 2.0;
@@ -68,6 +79,8 @@ impl<'a> RhsSearch<'a> {
         );
         Self {
             columns,
+            column_tables,
+            scratch: ProbeScratch::default(),
             rhs,
             universe: ColumnSet::from_columns(num_columns, (0..num_columns).filter(|&c| c != rhs)),
             max_violations: max_error * total_pairs,
@@ -110,7 +123,7 @@ impl<'a> RhsSearch<'a> {
         }
         self.ensure_partition(lhs);
         let lhs_part = &self.cache[lhs];
-        let joint = lhs_part.intersect(&self.columns[self.rhs]);
+        let joint = lhs_part.probe_with(&self.column_tables[self.rhs], &mut self.scratch);
         let v = lhs_part.nep() - joint.nep();
         self.violations.insert(lhs.clone(), v);
         v
@@ -126,7 +139,7 @@ impl<'a> RhsSearch<'a> {
             self.columns[last].clone()
         } else {
             self.ensure_partition(&rest);
-            self.cache[&rest].intersect(&self.columns[last])
+            self.cache[&rest].probe_with(&self.column_tables[last], &mut self.scratch)
         };
         self.cache.insert(lhs.clone(), part);
     }

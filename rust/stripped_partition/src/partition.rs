@@ -4,6 +4,14 @@ pub type ValueId = u32;
 /// Probing-table value for rows that belong to no non-singleton cluster.
 pub const SINGLETON: ValueId = 0;
 
+/// Reusable buffers for [`StrippedPartition::probe_with`]. Counts are zeroed
+/// again after every cluster, so the buffers stay clean between calls.
+#[derive(Debug, Default)]
+pub struct ProbeScratch {
+    counts: Vec<u32>,
+    cursor: Vec<usize>,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct StrippedPartition {
     rows: Vec<RowId>,
@@ -145,6 +153,11 @@ impl StrippedPartition {
 
     /// Refines this partition by the probing table of another one.
     pub fn probe(&self, probing_table: &[ValueId]) -> Self {
+        self.probe_with(probing_table, &mut ProbeScratch::default())
+    }
+
+    /// Like [`probe`](Self::probe), reusing `scratch` across calls.
+    pub fn probe_with(&self, probing_table: &[ValueId], scratch: &mut ProbeScratch) -> Self {
         assert_eq!(probing_table.len(), self.relation_size as usize);
 
         let key_space = probing_table
@@ -152,8 +165,12 @@ impl StrippedPartition {
             .copied()
             .max()
             .map_or(0, |m| m as usize + 1);
-        let mut counts = vec![0u32; key_space];
-        let mut cursor = vec![0usize; key_space];
+        if scratch.counts.len() < key_space {
+            scratch.counts.resize(key_space, 0);
+            scratch.cursor.resize(key_space, 0);
+        }
+        let counts = &mut scratch.counts;
+        let cursor = &mut scratch.cursor;
         let mut touched: Vec<ValueId> = Vec::new();
         let mut out_rows: Vec<RowId> = Vec::new();
         let mut out_ranges: Vec<(usize, usize)> = Vec::new();
