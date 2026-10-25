@@ -11,9 +11,9 @@
 
 use std::ffi::CStr;
 
-use arrow::array::{Array, AsArray, RecordBatch};
+use arrow::array::{Array, AsArray, GenericStringArray, OffsetSizeTrait, RecordBatch};
 use arrow::compute::cast;
-use arrow::datatypes::DataType;
+use arrow::datatypes::{DataType, Int32Type, Int64Type};
 use arrow::error::ArrowError;
 use arrow::ffi_stream::{ArrowArrayStreamReader, FFI_ArrowArrayStream};
 use pyo3::exceptions::{PyRuntimeError, PyValueError};
@@ -27,9 +27,14 @@ use stripped_partition::{
 const STREAM_CAPSULE: &CStr = c"arrow_array_stream";
 
 /// Dictionary for one column. Values get dense codes in first-seen order.
+///
+/// Integer and string columns are read straight from their Arrow buffers.
+/// Other types are cast to strings first. A column has one Arrow type, so
+/// only one of the two maps is used for a given column.
 #[derive(Default)]
 struct Encoder {
-    codes: FxHashMap<Box<str>, ValueId>,
+    strings: FxHashMap<Box<str>, ValueId>,
+    ints: FxHashMap<i64, ValueId>,
     null_code: Option<ValueId>,
     next: ValueId,
 }
@@ -41,34 +46,79 @@ impl Encoder {
         c
     }
 
+    fn null(&mut self) -> ValueId {
+        match self.null_code {
+            Some(c) => c,
+            None => {
+                let c = self.fresh();
+                self.null_code = Some(c);
+                c
+            }
+        }
+    }
+
     fn encode_into(&mut self, array: &dyn Array, out: &mut Vec<ValueId>) -> Result<(), ArrowError> {
-        let strings = cast(array, &DataType::Utf8)?;
-        let strings = strings.as_string::<i32>();
-        out.reserve(strings.len());
-        for i in 0..strings.len() {
-            let code = if strings.is_null(i) {
-                match self.null_code {
-                    Some(c) => c,
-                    None => {
-                        let c = self.fresh();
-                        self.null_code = Some(c);
-                        c
-                    }
-                }
-            } else {
-                let s = strings.value(i);
-                match self.codes.get(s) {
+        out.reserve(array.len());
+        match array.data_type() {
+            DataType::Int64 => {
+                let a = array.as_primitive::<Int64Type>();
+                self.encode_ints(a.iter(), out);
+            }
+            DataType::Int32 => {
+                let a = array.as_primitive::<Int32Type>();
+                self.encode_ints(a.iter().map(|v| v.map(i64::from)), out);
+            }
+            DataType::Utf8 => self.encode_strings(array.as_string::<i32>(), out),
+            DataType::LargeUtf8 => self.encode_strings(array.as_string::<i64>(), out),
+            _ => {
+                let strings = cast(array, &DataType::Utf8)?;
+                self.encode_strings(strings.as_string::<i32>(), out);
+            }
+        }
+        Ok(())
+    }
+
+    fn encode_ints<I>(&mut self, values: I, out: &mut Vec<ValueId>)
+    where
+        I: Iterator<Item = Option<i64>>,
+    {
+        for v in values {
+            let code = match v {
+                None => self.null(),
+                Some(x) => match self.ints.get(&x) {
                     Some(&c) => c,
                     None => {
                         let c = self.fresh();
-                        self.codes.insert(Box::from(s), c);
+                        self.ints.insert(x, c);
+                        c
+                    }
+                },
+            };
+            out.push(code);
+        }
+    }
+
+    fn encode_strings<O: OffsetSizeTrait>(
+        &mut self,
+        strings: &GenericStringArray<O>,
+        out: &mut Vec<ValueId>,
+    ) {
+        for i in 0..strings.len() {
+            let code = if strings.is_null(i) {
+                self.null()
+            } else {
+                let s = strings.value(i);
+                match self.strings.get(s) {
+                    Some(&c) => c,
+                    None => {
+                        let c = self.fresh();
+                        self.strings.insert(Box::from(s), c);
                         c
                     }
                 }
             };
             out.push(code);
         }
-        Ok(())
     }
 }
 
@@ -186,4 +236,119 @@ fn discover_fds(
 fn mugen(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(discover_fds, m)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use arrow::array::{Int64Array, StringArray};
+    use std::sync::Arc;
+
+    fn batch(cols: Vec<(&str, Arc<dyn Array>)>) -> RecordBatch {
+        RecordBatch::try_from_iter(cols).unwrap()
+    }
+
+    fn encode_one(array: &dyn Array) -> Vec<ValueId> {
+        let mut out = Vec::new();
+        Encoder::default().encode_into(array, &mut out).unwrap();
+        out
+    }
+
+    fn sorted_fds(fds: Vec<Fd>) -> Vec<(Vec<usize>, usize)> {
+        let mut out: Vec<_> = fds
+            .into_iter()
+            .map(|fd| (fd.lhs.columns().collect(), fd.rhs))
+            .collect();
+        out.sort();
+        out
+    }
+
+    #[test]
+    fn codes_are_dense_in_first_seen_order() {
+        let arr = StringArray::from(vec![Some("a"), Some("b"), Some("a"), Some("c")]);
+        assert_eq!(encode_one(&arr), vec![0, 1, 0, 2]);
+    }
+
+    #[test]
+    fn nulls_share_one_code_distinct_from_values() {
+        let arr = StringArray::from(vec![None, Some("x"), None, Some("")]);
+        // The empty string is a value, not a null.
+        assert_eq!(encode_one(&arr), vec![0, 1, 0, 2]);
+    }
+
+    #[test]
+    fn integer_column_encodes_like_its_string_form() {
+        let ints = Int64Array::from(vec![Some(1), Some(2), Some(1), None]);
+        let strs = StringArray::from(vec![Some("1"), Some("2"), Some("1"), None]);
+        assert_eq!(encode_one(&ints), encode_one(&strs));
+    }
+
+    #[test]
+    fn codes_are_shared_across_batches() {
+        let first: Arc<dyn Array> = Arc::new(StringArray::from(vec![Some("a"), Some("b")]));
+        let second: Arc<dyn Array> = Arc::new(StringArray::from(vec![Some("b"), None, Some("a")]));
+        let batches = vec![
+            Ok(batch(vec![("c", first)])),
+            Ok(batch(vec![("c", second)])),
+        ];
+        let (names, codes) = encode_batches(batches).unwrap();
+        assert_eq!(names, vec!["c".to_string()]);
+        assert_eq!(codes, vec![vec![0, 1, 1, 2, 0]]);
+    }
+
+    #[test]
+    fn column_names_come_from_the_schema() {
+        let a: Arc<dyn Array> = Arc::new(Int64Array::from(vec![1, 2]));
+        let b: Arc<dyn Array> = Arc::new(StringArray::from(vec!["x", "y"]));
+        let batches = vec![Ok(batch(vec![("left", a), ("right", b)]))];
+        let (names, codes) = encode_batches(batches).unwrap();
+        assert_eq!(names, vec!["left".to_string(), "right".to_string()]);
+        assert_eq!(codes.len(), 2);
+    }
+
+    #[test]
+    fn empty_stream_gives_no_columns() {
+        let (names, codes) = encode_batches(Vec::<Result<RecordBatch, ArrowError>>::new()).unwrap();
+        assert!(names.is_empty());
+        assert!(codes.is_empty());
+    }
+
+    fn partitions(cols: &[Vec<ValueId>]) -> Vec<StrippedPartition> {
+        cols.iter()
+            .map(|c| StrippedPartition::from_values(c))
+            .collect()
+    }
+
+    #[test]
+    fn finds_single_column_fds_both_ways() {
+        // a and b determine each other; c is unrelated.
+        let cols = vec![vec![0, 0, 1, 1], vec![0, 0, 1, 1], vec![0, 1, 0, 1]];
+        let fds = run_pyro(&partitions(&cols), 0.0, None, None).unwrap();
+        let got = sorted_fds(fds);
+        assert!(got.contains(&(vec![0], 1)));
+        assert!(got.contains(&(vec![1], 0)));
+    }
+
+    #[test]
+    fn max_lhs_hides_fds_with_larger_left_hand_side() {
+        // (a, b) -> c holds, but neither a nor b alone does.
+        let cols = vec![vec![0, 0, 1, 1], vec![0, 1, 0, 1], vec![0, 1, 2, 3]];
+        let full = sorted_fds(run_pyro(&partitions(&cols), 0.0, None, None).unwrap());
+        assert!(full.contains(&(vec![0, 1], 2)));
+        let capped = sorted_fds(run_pyro(&partitions(&cols), 0.0, Some(1), None).unwrap());
+        assert!(!capped.iter().any(|(lhs, _)| lhs.len() > 1));
+    }
+
+    #[test]
+    fn thread_count_does_not_change_the_result() {
+        let cols = vec![
+            vec![0, 0, 1, 1, 2, 2],
+            vec![0, 1, 0, 1, 0, 1],
+            vec![0, 1, 2, 3, 4, 5],
+            vec![0, 0, 0, 1, 1, 1],
+        ];
+        let serial = sorted_fds(run_pyro(&partitions(&cols), 0.0, None, Some(1)).unwrap());
+        let parallel = sorted_fds(run_pyro(&partitions(&cols), 0.0, None, Some(4)).unwrap());
+        assert_eq!(serial, parallel);
+    }
 }
