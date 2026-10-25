@@ -65,6 +65,7 @@ Ported so far:
 - **Exact validation.** Every FD set is compared by name against Desbordante's
   output (`harness/validate_mugen.py`). The sets match on the 14, 20, and
   30 column subsets of the Cargo dataset, through both pyarrow and Polars.
+  The 40 column subset has no Desbordante reference (see below).
 
 ## Results so far
 
@@ -77,11 +78,17 @@ machine (Ryzen 9 5900X) on one dataset, and the caveats in those reports apply.
 | Cargo 20 cols, 1 thread | 0.219 s | 0.088 s (2.5×) | 946 FDs, match |
 | Cargo 30 cols, 1 thread | 2.42 s | 0.76 s (3.2×) | 8,250 FDs, match |
 | Cargo 30 cols, all threads | 2.42 s (1 thread) | 0.12 s (20×) | same FDs; speedup is against single-thread Desbordante |
+| Cargo 40 cols, 1 thread | segfault | 5.44 s | 32,242 FDs, no reference to check against |
+| Cargo 40 cols, all threads | segfault | 0.95 s | same FDs |
 | Cargo 98 cols, uncapped | timeout (20 min) | timeout (20 min) | neither finishes |
 | Cargo 98 cols, LHS cap 1 | timeout (15 min) | 0.25 s | 426 FDs |
 
 Memory is higher with threads: at 30 columns, peak RSS was 382 MB with all
-threads and 106 MB with one thread, against 182 MB for Desbordante.
+threads and 106 MB with one thread, against 182 MB for Desbordante. At 40
+columns it was 1,298 MB with all threads and 180 MB with one thread.
+
+The walkthrough notebook (`harness/mugen_walkthrough.ipynb`) runs the scaling
+loop over 14, 20, 30, and 40 columns. At 40 columns it times mugen only.
 
 ## Conclusion
 
@@ -101,6 +108,10 @@ threads and 106 MB with one thread, against 182 MB for Desbordante.
 - **Only Pyro is exposed.** TANE and the approximate measures are ported but
   not reachable from Python. The approximate path (`max_error > 0`) has no
   parity check yet.
+- **No parity check at 40 columns.** Desbordante's Pyro segfaults on the
+  40-column Cargo subset, with one thread and with the default thread count,
+  so the 32,242 FDs that mugen finds there have no reference output. The
+  speed claims above therefore cover 14 to 30 columns.
 - **The 98-column dataset is still out of reach.** Neither engine finishes it
   uncapped in 20 minutes. Desbordante does not finish even with a cap of 1.
 - **The partition cache is bounded, but the output is not.** The list of
@@ -201,9 +212,19 @@ cd /path/to/mugen && .venv/bin/python harness/validate_mugen.py
 
 The UCI datasets are not in git. Put the bank marketing and Cargo 2000
 archives in the repository root and extract them there. The Cargo subsets
-(`c2k_subset14/20/30.csv`) are the first 14, 20, and 30 data columns of
-`c2k_data_comma.csv`, with the `nr` row counter excluded. No script in the
-repository creates them, so they must be cut by hand.
+are cut from `c2k_data_comma.csv`, with the `nr` row counter excluded. No
+script in the repository creates them, so they must be cut by hand:
+
+```bash
+cd cargo+2000+freight+tracking+and+tracing
+cut -d, -f2-10,23-25,74,98 c2k_data_comma.csv > c2k_subset14.csv
+cut -d, -f2-21 c2k_data_comma.csv > c2k_subset20.csv
+cut -d, -f2-31 c2k_data_comma.csv > c2k_subset30.csv
+cut -d, -f2-41 c2k_data_comma.csv > c2k_subset40.csv
+```
+
+Subsets 20, 30, and 40 are the first 20, 30, and 40 data columns. Subset 14
+is not a prefix: it takes columns from across the table.
 
 ## Citation
 
