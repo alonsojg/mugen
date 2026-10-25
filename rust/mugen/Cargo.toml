@@ -1,0 +1,16 @@
+[package]
+name = "mugen"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "mugen"
+crate-type = ["cdylib"]
+
+[dependencies]
+arrow = { version = "60", default-features = false, features = ["ffi"] }
+pyo3 = { version = "0.30", features = ["extension-module"] }
+rayon = "1.12.0"
+rustc-hash = "2.1.3"
+stripped_partition = { path = "../stripped_partition" }
