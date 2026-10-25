@@ -19,6 +19,8 @@ const DATASETS: &[&str] = &[
     "bank+marketing/bank-additional/bank-additional/bank-additional-full.csv",
     "cargo+2000+freight+tracking+and+tracing/c2k_data_comma.csv",
     "cargo+2000+freight+tracking+and+tracing/c2k_subset14.csv",
+    "cargo+2000+freight+tracking+and+tracing/c2k_subset20.csv",
+    "cargo+2000+freight+tracking+and+tracing/c2k_subset30.csv",
 ];
 
 /// Picks `,` or `;`, whichever splits the header into more fields.

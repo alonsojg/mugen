@@ -137,6 +137,19 @@ Subset, 14 columns, single run each. Timing includes dataset loading on both sid
 
 FD counts agree exactly at both caps. Rust is about 2× faster on this subset in these single runs. The noise level was not measured, so the ratio is indicative only.
 
+### 3b. Head-to-head on column subsets, uncapped
+
+Desbordante still returned no result at cap 1 on the full 98-column dataset. It timed out after 15 minutes, while Rust finished in 0.25 s with 426 FDs. The LHS cap therefore does not reduce Desbordante's cost enough on 98 columns. The cause was not investigated. To get a like-for-like comparison, the search space was reduced by taking the first N data columns (excluding the `nr` row counter). All runs are uncapped, and the FD counts match exactly.
+
+| Columns | FDs | Rust Pyro (s), 3 rounds | Desbordante Pyro (s), 3 rounds | Ratio |
+|---:|---:|---:|---:|---:|
+| 14 | 414 | 0.121 (1 run) | 0.204 (1 run) | ~1.7× |
+| 20 | 946 | 0.022 | 0.199 | ~9× |
+| 30 | 8,250 | 0.116 | 2.40 | ~21× |
+| 98 (cap 1) | 426 | 0.25 (1 run) | >900 (timed out) | not measured |
+
+The Rust timings are the best of three rounds from `fd_bench`, which includes loading. The Desbordante timings come from `bench.py --rounds 3`. Both sides include loading. The ratio grows with column count. On the 14-column subset the gap is small, and at 30 columns the Rust port is about 20× faster.
+
 ## 4. What changed in the Rust code
 
 | Change | Effect |
@@ -190,7 +203,7 @@ A 1-thread TANE fix for memory changed the peak but not the discovered FDs.
 
 14. **Profiling was limited.** `perf` was blocked by `perf_event_paranoid=4`, so the hot-spot analysis used temporary `Instant` timers and probe counters. Those counters were reverted and are not in the committed code.
 
-15. **The 98-column results are single runs with timeouts.** Desbordante produced no result on the Cargo dataset at cap 2 or cap 3 within 30 minutes. The Rust cap-3 timings (107–124 s over three runs) have some spread. The uncapped Rust run did not finish within 60 minutes. No speedup claim is made for the full 98-column dataset.
+15. **The 98-column results are single runs with timeouts.** Desbordante produced no result on the Cargo dataset at cap 1, cap 2, or cap 3 within the timeouts (15 to 30 minutes). The Rust cap-3 timings (107–124 s over three runs) have some spread. The uncapped Rust run did not finish within 60 minutes. No speedup claim is made for the full 98-column dataset. The head-to-head uses column subsets (section 3b), which are prefixes of the original column order and are not representative samples.
 
 16. **Cap semantics are verified only by counts.** Rust's cap was checked against Desbordante's `max_lhs` only by matching FD counts on the 14-column subset (255 at cap 3). On the full dataset, Rust's cap-2 and cap-3 counts have no Desbordante counterpart. Rust's cap is also tested against the uncapped output in a unit test.
 
