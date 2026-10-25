@@ -1,0 +1,65 @@
+//! Times `discover_fds_tane` on the UCI bank datasets.
+//!
+//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds>`
+
+use std::collections::HashMap;
+use std::path::PathBuf;
+use std::time::Instant;
+
+use stripped_partition::{discover_fds_tane, StrippedPartition, ValueId};
+
+const DATASETS: &[&str] = &[
+    "bank+marketing/bank/bank.csv",
+    "bank+marketing/bank/bank-full.csv",
+    "bank+marketing/bank-additional/bank-additional/bank-additional.csv",
+    "bank+marketing/bank-additional/bank-additional/bank-additional-full.csv",
+];
+
+fn load(path: &PathBuf) -> Vec<StrippedPartition> {
+    let mut reader = csv::ReaderBuilder::new()
+        .delimiter(b';')
+        .from_path(path)
+        .expect("dataset csv must exist");
+    let num_columns = reader.headers().expect("csv header").len();
+    let mut values: Vec<Vec<ValueId>> = vec![Vec::new(); num_columns];
+    let mut dictionaries: Vec<HashMap<String, ValueId>> = vec![HashMap::new(); num_columns];
+    for record in reader.records() {
+        let record = record.expect("csv record");
+        for (c, field) in record.iter().enumerate() {
+            let dict = &mut dictionaries[c];
+            let next = dict.len() as ValueId;
+            values[c].push(*dict.entry(field.to_owned()).or_insert(next));
+        }
+    }
+    values
+        .iter()
+        .map(|v| StrippedPartition::from_values(v))
+        .collect()
+}
+
+fn main() {
+    let args: Vec<String> = std::env::args().collect();
+    let root = PathBuf::from(&args[1]);
+    let rounds: usize = args[2].parse().expect("rounds");
+
+    for name in DATASETS {
+        let path = root.join(name);
+        let mut best_load = f64::INFINITY;
+        let mut best_discover = f64::INFINITY;
+        let mut count = 0;
+        for _ in 0..rounds {
+            let start = Instant::now();
+            let columns = load(&path);
+            best_load = best_load.min(start.elapsed().as_secs_f64());
+
+            let start = Instant::now();
+            let fds = discover_fds_tane(&columns);
+            best_discover = best_discover.min(start.elapsed().as_secs_f64());
+            count = fds.len();
+        }
+        println!(
+            "{name}\tfds={count}\tload={best_load:.4}\tdiscover={best_discover:.4}\ttotal={:.4}",
+            best_load + best_discover
+        );
+    }
+}

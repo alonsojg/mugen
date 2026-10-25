@@ -1,3 +1,4 @@
+use rayon::prelude::*;
 use rustc_hash::FxHashMap;
 
 use crate::column_set::ColumnSet;
@@ -62,9 +63,9 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
     compute_dependencies(&mut level, None, empty_clusters, &mut fds);
     prune(&mut level, &mut fds);
 
-    let mut column_tables = vec![None; n];
+    let column_tables: Vec<Vec<ValueId>> = columns.par_iter().map(|c| c.probing_table()).collect();
     while !level.vertices.is_empty() {
-        let mut next = Level::new(generate_next(&level, columns, &mut column_tables));
+        let mut next = Level::new(generate_next(&level, columns, &column_tables));
         compute_dependencies(&mut next, Some(&level), empty_clusters, &mut fds);
         prune(&mut next, &mut fds);
         level = next;
@@ -74,30 +75,30 @@ pub fn discover_fds_tane(columns: &[StrippedPartition]) -> Vec<Fd> {
 }
 
 /// Intersects `parent` with `column`, matching [`StrippedPartition::intersect`]
-/// but reusing probing tables: the parent's is built at most once per call
-/// site, and each column's is built once for the whole discovery.
-fn intersect_cached(
+/// but reusing the precomputed probing tables. The parent's table is built
+/// lazily by the caller and shared across its children.
+fn child_partition(
     parent: &StrippedPartition,
     column: &StrippedPartition,
     parent_table: &mut Option<Vec<ValueId>>,
-    column_table: &mut Option<Vec<ValueId>>,
+    column_table: &[ValueId],
 ) -> StrippedPartition {
     if parent.size() > column.size() {
         let table = parent_table.get_or_insert_with(|| parent.probing_table());
         column.probe(table)
     } else {
-        let table = column_table.get_or_insert_with(|| column.probing_table());
-        parent.probe(table)
+        parent.probe(column_table)
     }
 }
 
 /// Joins pairs of vertices that share all but their last column. A child is
 /// kept only if every one of its immediate subsets survived the previous
-/// level's pruning and some rhs candidate remains.
+/// level's pruning and some rhs candidate remains. Parents are processed in
+/// parallel; results keep the sequential order.
 fn generate_next(
     prev: &Level,
     columns: &[StrippedPartition],
-    column_tables: &mut [Option<Vec<ValueId>>],
+    column_tables: &[Vec<ValueId>],
 ) -> Vec<Vertex> {
     let keys: Vec<Vec<usize>> = prev
         .vertices
@@ -105,51 +106,53 @@ fn generate_next(
         .map(|v| v.cols.columns().collect())
         .collect();
     let arity = keys.first().map_or(0, Vec::len);
-    let mut next = Vec::new();
 
-    for i in 0..keys.len() {
-        let mut parent_table = None;
-        for j in i + 1..keys.len() {
-            if keys[i][..arity - 1] != keys[j][..arity - 1] {
-                break;
-            }
+    (0..keys.len())
+        .into_par_iter()
+        .flat_map_iter(|i| {
             let parent = &prev.vertices[i];
-            let last = keys[j][arity - 1];
-            let cols = parent.cols.with(last);
+            let mut parent_table = None;
+            let mut children = Vec::new();
+            for j in i + 1..keys.len() {
+                if keys[i][..arity - 1] != keys[j][..arity - 1] {
+                    break;
+                }
+                let last = keys[j][arity - 1];
+                let cols = parent.cols.with(last);
 
-            let mut rhs: Option<ColumnSet> = None;
-            let mut complete = true;
-            for c in cols.columns() {
-                match prev.vertex(&cols.without(c)) {
-                    None => {
-                        complete = false;
-                        break;
-                    }
-                    Some(sub) => {
-                        rhs = Some(match rhs {
-                            None => sub.rhs.clone(),
-                            Some(r) => r.intersection(&sub.rhs),
-                        });
+                let mut rhs: Option<ColumnSet> = None;
+                let mut complete = true;
+                for c in cols.columns() {
+                    match prev.vertex(&cols.without(c)) {
+                        None => {
+                            complete = false;
+                            break;
+                        }
+                        Some(sub) => {
+                            rhs = Some(match rhs {
+                                None => sub.rhs.clone(),
+                                Some(r) => r.intersection(&sub.rhs),
+                            });
+                        }
                     }
                 }
+                let Some(rhs) = rhs.filter(|_| complete) else {
+                    continue;
+                };
+                if rhs.is_empty() {
+                    continue;
+                }
+                let pli = child_partition(
+                    &parent.pli,
+                    &columns[last],
+                    &mut parent_table,
+                    &column_tables[last],
+                );
+                children.push(Vertex { cols, rhs, pli });
             }
-            let Some(rhs) = rhs.filter(|_| complete) else {
-                continue;
-            };
-            if rhs.is_empty() {
-                continue;
-            }
-            let pli = intersect_cached(
-                &parent.pli,
-                &columns[last],
-                &mut parent_table,
-                &mut column_tables[last],
-            );
-            next.push(Vertex { cols, rhs, pli });
-        }
-    }
-
-    next
+            children
+        })
+        .collect()
 }
 
 /// Emits `X \ {A} -> A` for every rhs candidate `A` of `X` that holds, then
