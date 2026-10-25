@@ -1,6 +1,6 @@
 //! Times `discover_fds_tane` or `discover_fds_pyro` on the UCI bank datasets.
 //!
-//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds> [tane|pyro]`
+//! Usage: `cargo run --release --example fd_bench -- <repo_root> <rounds> [tane|pyro] [dataset-substring]`
 
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -48,7 +48,8 @@ fn main() {
         other => panic!("unknown algorithm {other}"),
     };
 
-    for name in DATASETS {
+    let only = args.get(4).map(String::as_str);
+    for name in DATASETS.iter().filter(|n| only.is_none_or(|o| n.contains(o))) {
         let path = root.join(name);
         let mut best_load = f64::INFINITY;
         let mut best_discover = f64::INFINITY;

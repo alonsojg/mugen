@@ -37,11 +37,17 @@ def time_algorithm(cls, options: dict, path: Path, separator: str, rounds: int) 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rounds", type=int, default=3)
+    parser.add_argument("--algorithm", choices=sorted(ALGORITHMS))
+    parser.add_argument("--dataset", help="substring of the dataset path to run")
     args = parser.parse_args()
 
     for dataset in DATASETS.values():
+        if args.dataset and args.dataset not in dataset.path:
+            continue
         path = REPO_ROOT / dataset.path
         for name, (cls, options) in ALGORITHMS.items():
+            if args.algorithm and name != args.algorithm:
+                continue
             seconds, count = time_algorithm(cls, options, path, dataset.separator, args.rounds)
             print(f"{dataset.name}\t{name}\tfds={count}\ttotal={seconds:.4f}")
 
