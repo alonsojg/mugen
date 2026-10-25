@@ -28,7 +28,7 @@ Two things drive the design here:
 ## Where it comes from
 
 The Rust code is a port of Desbordante's algorithms, not a wrapper around
-it. Desbordante is used in three places:
+it. Desbordante is used in three places (see [Citation](#citation) for its paper):
 
 - **Ground truth.** `harness/desbordante_harness.py` runs Desbordante and
   pandas-based checks, and writes the exact FDs, UCCs, and INDs to JSON
@@ -204,6 +204,14 @@ archives in the repository root and extract them there. The Cargo subsets
 (`c2k_subset14/20/30.csv`) are the first 14, 20, and 30 data columns of
 `c2k_data_comma.csv`, with the `nr` row counter excluded. No script in the
 repository creates them, so they must be cut by hand.
+
+## Citation
+
+If you use mugen or the algorithms it ports, please cite the original work:
+
+- **Desbordante:** G. Chernishev, M. Polyntsov, A. Chizhov, et al. "Desbordante: from benchmarking suite to high-performance science-intensive data profiler." arXiv:2301.05965, 2023. https://arxiv.org/abs/2301.05965
+- **Pyro:** S. Kruse and F. Naumann. "Efficient Discovery of Approximate Dependencies." *PVLDB* 11(7), 759–772, 2018.
+- **TANE:** Y. Huhtala, J. Kärkkäinen, P. Porkka, and H. Toivonen. "TANE: An Efficient Algorithm for Discovering Functional and Approximate Dependencies." *The Computer Journal* 42(2), 100–111, 1999.
 
 ## License
 
