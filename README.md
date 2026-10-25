@@ -2,7 +2,7 @@
 
 Rust-based data profiling for functional dependency (FD) discovery, with a
 Python module built on Polars and Arrow. The goal is to take the search
-work that [Desbordante](https://github.com/Mstrutov/Desbordante) does in C++
+work that [Desbordante](https://github.com/Desbordante/desbordante-core) does in C++
 and run it in Rust, so that a Polars pipeline can discover FDs faster than
 pandas plus Desbordante.
 
@@ -76,7 +76,7 @@ machine (Ryzen 9 5900X) on one dataset, and the caveats in those reports apply.
 | Cargo 14 cols, 1 thread | 0.071 s | 0.030 s (2.4×) | 414 FDs, match |
 | Cargo 20 cols, 1 thread | 0.219 s | 0.088 s (2.5×) | 946 FDs, match |
 | Cargo 30 cols, 1 thread | 2.42 s | 0.76 s (3.2×) | 8,250 FDs, match |
-| Cargo 30 cols, all threads | n/a | 0.12 s (20×) | same FDs |
+| Cargo 30 cols, all threads | 2.42 s (1 thread) | 0.12 s (20×) | same FDs; speedup is against single-thread Desbordante |
 | Cargo 98 cols, uncapped | timeout (20 min) | timeout (20 min) | neither finishes |
 | Cargo 98 cols, LHS cap 1 | timeout (15 min) | 0.25 s | 426 FDs |
 
@@ -87,8 +87,9 @@ threads and 106 MB with one thread, against 182 MB for Desbordante.
 
 ### Benefits
 
-- Pyro is faster than Desbordante's Pyro at every column count tested, and the
-  gap grows with the width of the table.
+- On the 14, 20, and 30 column Cargo subsets, Pyro is 2.4–3.2× faster than
+  Desbordante's Pyro on one thread, and the gap grows with width. Results for
+  the full 98-column table is covered in the reports listed below.
 - DataFrame input is read through Arrow, so there is no per-row conversion
   into Python objects. Desbordante needs that conversion.
 - The search is parallel across right-hand sides and has a memory budget.
@@ -153,12 +154,15 @@ threads and 106 MB with one thread, against 182 MB for Desbordante.
 ```
 harness/           Python harness: Desbordante ground truth, benchmarks, reports
   desbordante_harness.py   runs Desbordante, writes JSON fixtures
+  fixtures/                JSON ground truth written by the harness
   bench.py                 Desbordante timing (one thread)
   pipeline_bench.py        end-to-end timing, one subprocess per side
   validate_mugen.py        FD parity check against Desbordante
-  mugen_walkthrough.ipynb  walkthrough of mugen versus Desbordante
+  mugen_walkthrough.ipynb  walkthrough of mugen versus Desbordante (Cargo)
+  superconductivity_walkthrough.ipynb  mugen FD discovery on superconductivity data
   BENCHMARK_REPORT.md      Rust versus Desbordante, runtime and memory
   PIPELINE_REPORT.md       pandas plus Desbordante versus polars plus mugen
+  BANK_CARGO_FD_REPORT.md  FDs found in the bank-marketing and Cargo data
 rust/stripped_partition/   core Rust library (partitions, lattice, TANE, Pyro)
 rust/mugen/                PyO3 module exposed to Python as `mugen`
 ```
@@ -200,3 +204,11 @@ archives in the repository root and extract them there. The Cargo subsets
 (`c2k_subset14/20/30.csv`) are the first 14, 20, and 30 data columns of
 `c2k_data_comma.csv`, with the `nr` row counter excluded. No script in the
 repository creates them, so they must be cut by hand.
+
+## License
+
+mugen is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0),
+see [LICENSE](LICENSE). The Rust code is a port of Desbordante's algorithms,
+which Desbordante licenses under AGPL-3.0, so this project uses the same
+license. If you run a modified version of mugen as a network service, the
+AGPL requires you to offer its source to the users of that service.
