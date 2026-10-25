@@ -96,6 +96,12 @@ DATASETS: dict[str, DatasetSpec] = {
             separator=",",
             source="Cargo 2000, 30 columns cut from c2k_data_comma.csv",
         ),
+        DatasetSpec(
+            "cargo-subset40",
+            "cargo+2000+freight+tracking+and+tracing/c2k_subset40.csv",
+            separator=",",
+            source="Cargo 2000, 40 columns cut from c2k_data_comma.csv",
+        ),
     ]
 }
 
